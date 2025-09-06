@@ -1,0 +1,347 @@
+BOOK AUTOMATION SOFTWARE
+-------------------------------------
+
+Structure Chart
+
+-------------------------------------
+
+flowchart TB
+    %% Top-Level System
+    BAS[Bookshop Automation Software]
+
+    %% Major Modules
+    P1[Handle Book Queries]
+    P2[Manage Sales & Purchases]
+    P3[Update Inventory from Supply]
+    P4[Generate Reports]
+    P5[Manage Procurement & Threshold]
+
+    %% External Entities
+    C[Customer]
+    SC[Sales Clerk]
+    M[Manager]
+    O[Owner]
+    SUP[Supplier]
+
+    %% Hierarchy
+    BAS --> P1
+    BAS --> P2
+    BAS --> P3
+    BAS --> P4
+    BAS --> P5
+
+    %% ----- Module 1: Handle Book Queries -----
+    C -- "book-query" --> P1
+    P1 -- "availability-info" --> C
+    P1 -- "unavailable-request" --> BAS
+    P1 -- "customer-contact" --> BAS
+
+    %% ----- Module 2: Manage Sales & Purchases -----
+    SC -- "purchase-entry" --> P2
+    P2 -- "sales-receipt" --> SC
+    P2 -- "purchase-confirmation" --> C
+    P2 -- "sales-record" --> BAS
+    P2 -- "update-stock" --> BAS
+
+    %% ----- Module 3: Update Inventory -----
+    SUP -- "supply-arrival" --> P3
+    P3 -- "update-stock" --> BAS
+    P3 -- "supplier-info" --> BAS
+
+    %% ----- Module 4: Generate Reports -----
+    M -- "report-request" --> P4
+    P4 -- "demand-report / sales-report" --> M
+    P4 -- "use sales-records / unavailable-requests" --> BAS
+
+    %% ----- Module 5: Manage Procurement & Threshold -----
+    O -- "threshold-check / procurement-request" --> P5
+    P5 -- "threshold-report" --> O
+    P5 -- "purchase-order / CN" --> SUP
+    P5 -- "use book-details / supplier-info" --> BAS
+
+    %% Styling
+    style BAS fill:#ffb6c1,stroke:#333,stroke-width:1.5px
+    style P1 fill:#ffe4e1,stroke:#333
+    style P2 fill:#ffe4e1,stroke:#333
+    style P3 fill:#ffe4e1,stroke:#333
+    style P4 fill:#ffe4e1,stroke:#333
+    style P5 fill:#ffe4e1,stroke:#333
+
+    style C fill:#add8e6,stroke:#333
+    style SC fill:#add8e6,stroke:#333
+    style M fill:#add8e6,stroke:#333
+    style O fill:#add8e6,stroke:#333
+    style SUP fill:#add8e6,stroke:#333
+
+
+-------------------------------------
+
+CITY AUTOMATION SOFTWARE
+
+-------------------------------------
+
+Structure Chart
+
+-------------------------------------
+
+---
+config:
+  layout: fixed
+---
+flowchart TB
+    CCAS["City Corporation Automation Software"] --> P1["Handle Citizen Requests & Info"] & P2["Manage Repair Requests"] & P4["Update Resource Availability"] & P5["Generate Reports & Statistics"]
+    R["Resident"] -- "facility-info-request / repair-request" --> P1
+    P1 -- "facility-info / request-confirmation" --> R
+    P1 -- "store repair-requests" --> CCAS
+    S["Branch Supervisor"] -- view requests / enter estimates --> P2
+    P2 -- "schedule-reports" --> S
+    P2 -- "update repair-schedule" --> CCAS
+    P3["Resource Scheduling"] -- "schedule-data" --> CCAS
+    P3 -- "update resource-usage" --> CCAS
+    CCAS -- "repair-schedule" --> S
+    A["Administrator"] -- "resource-data (manpower & machines)" --> P4
+    P4 -- "store resource-data" --> CCAS
+    P4 -- trigger scheduling --> P3
+    M["Mayor"] -- "statistics-request" --> P5
+    P5 -- "statistics-report" --> M
+    P5 -- access requests / schedules / progress / resources --> CCAS
+    style CCAS fill:#ffcccb,stroke:#333,stroke-width:1.5px
+    style P1 fill:#ffe4e1,stroke:#333
+    style P2 fill:#ffe4e1,stroke:#333
+    style P4 fill:#ffe4e1,stroke:#333
+    style P5 fill:#ffe4e1,stroke:#333
+    style R fill:#add8e6,stroke:#333
+    style S fill:#add8e6,stroke:#333
+    style P3 fill:#ffe4e1,stroke:#333
+    style A fill:#add8e6,stroke:#333
+    style M fill:#add8e6,stroke:#333
+
+
+
+-------------------------------------
+
+RESTAURANT AUTOMATION SOFTWARE
+
+-------------------------------------
+
+DFD Level 0
+
+-------------------------------------
+
+flowchart LR
+    %% External Entities
+    C[Customer]
+    W[Waiter]
+    MGR[Manager]
+    K[Kitchen Staff]
+    SUP[Supplier]
+
+    %% System
+    RAS(("Restaurant Automation System"))
+
+    %% Customer ↔ System
+    C -->|"place-order / make-reservation / payment"| RAS
+    RAS -->|"order-status / bill / reservation-confirmation"| C
+
+    %% Waiter ↔ System
+    W -->|"enter-order / update-table-status"| RAS
+    RAS -->|"kitchen-order / billing-info"| W
+
+    %% Kitchen ↔ System
+    K -->|"update-order-status"| RAS
+    RAS -->|"food-order"| K
+
+    %% Manager ↔ System
+    MGR -->|"report-request / menu-update"| RAS
+    RAS -->|"sales-report / reservation-stats"| MGR
+
+    %% Supplier ↔ System
+    SUP -->|"supply-delivery"| RAS
+    RAS -->|"purchase-order"| SUP
+
+    %% Styles
+    style RAS fill:#ffcccb,stroke:#333,stroke-width:1.5px
+    style C fill:#add8e6,stroke:#333
+    style W fill:#add8e6,stroke:#333
+    style MGR fill:#add8e6,stroke:#333
+    style K fill:#add8e6,stroke:#333
+    style SUP fill:#add8e6,stroke:#333
+
+
+
+-------------------------------------
+
+DFD Level 1
+
+-------------------------------------
+
+flowchart LR
+    %% External Entities
+    C[Customer]
+    W[Waiter]
+    MGR[Manager]
+    K[Kitchen Staff]
+    SUP[Supplier]
+
+    %% Processes
+    P1(("1.0 Manage Reservations & Seating"))
+    P2(("2.0 Handle Orders & Service"))
+    P3(("3.0 Manage Kitchen Operations"))
+    P4(("4.0 Handle Billing & Payments"))
+    P5(("5.0 Inventory & Procurement Management"))
+    P6(("6.0 Generate Reports"))
+
+    %% Data Stores
+    DS1[[Reservation Records]]
+    DS2[[Menu & Orders]]
+    DS3[[Kitchen Queue]]
+    DS4[[Billing Records]]
+    DS5[[Inventory]]
+    DS6[[Supplier Records]]
+
+    %% ----- Reservations -----
+    C -->|"reservation-request"| P1
+    P1 -->|"reservation-confirmation"| C
+    P1 -->|"store reservation"| DS1
+    MGR -->|"update-menu / update-reservations"| P1
+
+    %% ----- Orders -----
+    W -->|"enter-order"| P2
+    P2 -->|"order-details"| DS2
+    P2 -->|"food-order"| P3
+    C -->|"place-order"| P2
+    P2 -->|"order-status"| C
+    P2 -->|"kitchen-order"| K
+
+    %% ----- Kitchen Operations -----
+    P3 -->|"update-status"| DS3
+    K -->|"update-order-status"| P3
+    P3 -->|"order-ready"| W
+    P3 -->|"order-status-update"| P2
+
+    %% ----- Billing -----
+    W -->|"billing-request"| P4
+    P4 -->|"bill"| W
+    C -->|"make-payment"| P4
+    P4 -->|"payment-confirmation"| C
+    P4 -->|"store billing-data"| DS4
+
+    %% ----- Inventory & Procurement -----
+    SUP -->|"supply-delivery"| P5
+    P5 -->|"update-inventory"| DS5
+    P5 -->|"supplier-data"| DS6
+    P5 -->|"purchase-order"| SUP
+    P2 -->|"consume-items"| P5
+    P3 -->|"consume-items"| P5
+
+    %% ----- Reports -----
+    MGR -->|"report-request"| P6
+    P6 -->|"sales-report / reservation-stats / inventory-report"| MGR
+    P6 -->|"read billing-records"| DS4
+    P6 -->|"read reservations"| DS1
+    P6 -->|"read orders"| DS2
+    P6 -->|"read inventory"| DS5
+
+    %% Styles
+    style P1 fill:#ffcccb,stroke:#333,stroke-width:1.5px
+    style P2 fill:#ffcccb,stroke:#333,stroke-width:1.5px
+    style P3 fill:#ffcccb,stroke:#333,stroke-width:1.5px
+    style P4 fill:#ffcccb,stroke:#333,stroke-width:1.5px
+    style P5 fill:#ffcccb,stroke:#333,stroke-width:1.5px
+    style P6 fill:#ffcccb,stroke:#333,stroke-width:1.5px
+
+    style DS1 fill:#fffacd,stroke:#333
+    style DS2 fill:#fffacd,stroke:#333
+    style DS3 fill:#fffacd,stroke:#333
+    style DS4 fill:#fffacd,stroke:#333
+    style DS5 fill:#fffacd,stroke:#333
+    style DS6 fill:#fffacd,stroke:#333
+
+    style C fill:#add8e6,stroke:#333
+    style W fill:#add8e6,stroke:#333
+    style MGR fill:#add8e6,stroke:#333
+    style K fill:#add8e6,stroke:#333
+    style SUP fill:#add8e6,stroke:#333
+
+
+
+-------------------------------------
+
+Structure Chart
+
+-------------------------------------
+
+flowchart TB
+    %% Top-Level System
+    RAS[Restaurant Automation System]
+
+    %% Major Modules
+    P1[Manage Reservations & Seating]
+    P2[Handle Orders & Service]
+    P3[Manage Kitchen Operations]
+    P4[Handle Billing & Payments]
+    P5[Inventory & Procurement Management]
+    P6[Generate Reports]
+
+    %% External Entities
+    C[Customer]
+    W[Waiter]
+    K[Kitchen Staff]
+    MGR[Manager]
+    SUP[Supplier]
+
+    %% Hierarchy
+    RAS --> P1
+    RAS --> P2
+    RAS --> P3
+    RAS --> P4
+    RAS --> P5
+    RAS --> P6
+
+    %% ----- Module 1: Reservations -----
+    C -- "reservation-request" --> P1
+    P1 -- "reservation-confirmation" --> C
+    MGR -- "update-menu / update-reservations" --> P1
+
+    %% ----- Module 2: Orders -----
+    C -- "place-order" --> P2
+    W -- "enter-order / update-table-status" --> P2
+    P2 -- "order-status" --> C
+    P2 -- "kitchen-order" --> K
+    P2 -- "billing-info" --> W
+
+    %% ----- Module 3: Kitchen -----
+    K -- "update-order-status" --> P3
+    P3 -- "order-ready" --> W
+    P3 -- "status-update" --> P2
+
+    %% ----- Module 4: Billing -----
+    W -- "billing-request" --> P4
+    P4 -- "bill" --> W
+    C -- "make-payment" --> P4
+    P4 -- "payment-confirmation" --> C
+
+    %% ----- Module 5: Inventory & Procurement -----
+    SUP -- "supply-delivery" --> P5
+    P5 -- "purchase-order" --> SUP
+    P2 -- "consume-items" --> P5
+    P3 -- "consume-items" --> P5
+
+    %% ----- Module 6: Reports -----
+    MGR -- "report-request" --> P6
+    P6 -- "sales-report / reservation-stats / inventory-report" --> MGR
+
+    %% Styling
+    style RAS fill:#ffcccb,stroke:#333,stroke-width:1.5px
+    style P1 fill:#ffe4e1,stroke:#333
+    style P2 fill:#ffe4e1,stroke:#333
+    style P3 fill:#ffe4e1,stroke:#333
+    style P4 fill:#ffe4e1,stroke:#333
+    style P5 fill:#ffe4e1,stroke:#333
+    style P6 fill:#ffe4e1,stroke:#333
+
+    style C fill:#add8e6,stroke:#333
+    style W fill:#add8e6,stroke:#333
+    style K fill:#add8e6,stroke:#333
+    style MGR fill:#add8e6,stroke:#333
+    style SUP fill:#add8e6,stroke:#333
